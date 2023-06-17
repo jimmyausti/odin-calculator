@@ -3,6 +3,7 @@ console.log("hello world");
 
 
 const display = document.querySelector("#display-screen");
+const previousEquation = document.querySelector('#previous-screen')
 const mathInput = document.querySelectorAll(".input");
 
 mathInput.forEach((input) => {
@@ -13,18 +14,31 @@ mathInput.forEach((input) => {
 
 const equate = document.getElementById("equate");
 
+function roundResult(number) {
+  return Math.round(number * 1000) / 1000
+}
+
+
 equate.addEventListener("click", () => {
-    const equation = display.innerText.split('')
-  const firstNumber = equation[0];
-  const operator = equation[1];
-  const secondNumber = equation[2];
-  const result = operate(operator, firstNumber, secondNumber);
-  display.innerText = result;
+const pattern = /(\d+(\.\d+)?)([+\-*/])(\d+(\.\d+)?)/;
+    const match = display.innerText.match(pattern);
+    if (match) {
+      const initialNumber = parseFloat(match[1]);
+      const operand = match[3];
+      const finalNumber = parseFloat(match[4]);
+      const result = roundResult(operate(operand, initialNumber, finalNumber));
+      previousEquation.innerText = `${initialNumber} ${operand} ${finalNumber}`;
+      return display.innerText = result;
+    } else {
+      display.innerText = "Invalid equation format.";
+      return null;
+    }
 });
 
 const clear = document.getElementById("clear");
 clear.addEventListener("click", () => {
   display.innerText = "";
+  previousEquation.innerText = '';
 });
 
 
