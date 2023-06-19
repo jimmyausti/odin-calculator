@@ -10,15 +10,16 @@ mathInput.forEach((input) => {
   });
 });
 
-const equate = document.getElementById("equate");
+const equate = document.querySelector("#equate");
 
 function roundResult(number) {
   return Math.round(number * 1000) / 1000;
 }
 
+const regex = /(-?\d+(\.\d+)?)([+\-*/])(-?\d+(\.\d+)?)(?![+\-*/])/;
+
 equate.addEventListener("click", () => {
-  const pattern = /(-?\d+(\.\d+)?)([+\-*/])(-?\d+(\.\d+)?)/;
-  const match = display.innerText.match(pattern);
+  const match = display.innerText.match(regex);
   if (display.innerText) {
     if (match) {
       const initialNumber = parseFloat(match[1]);
@@ -73,10 +74,13 @@ const operate = (operator, a, b) => {
       return multiply(a, b);
     case "/":
       if (b === 0) {
-        alert('Nah don\'t do that') 
-      } 
+        alert("Nah don't do that");
+      }
       return divide(a, b);
     default:
       return null;
   }
 };
+
+
+
